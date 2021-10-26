@@ -1,10 +1,11 @@
-#imports
+#imports:
 import os
 
 #game Variables
 gameActive = True
 activePlayer = 1
 gameBuffer = 0
+spaces = ["a1", "a2", "a3", "b1", "b2", "b3", "c1", "c2", "c3"]
 rowcoldia = ["a1", "a2", "a3", "b1", "b2", "b3", "c1", "c2", "c3", "a1", "b1", "c1", "a1", "b1", "c1", "a2", "b2", "c2", "a3", "b3", "c3", "a1", "b2", "c3", "c1", "b2", "a3"]
 gameWonX = "XXX"
 gameWonO = "OOO"
@@ -52,6 +53,12 @@ def gameStatus():
 			return True
 		elif x == gameWonO:
 			return True
+	gameStatus = 0
+	for x in rowcoldia:
+		if x in spaces:
+			gameStatus += 1
+	if gameStatus == 0:
+		return False
 
 def clearConsole():
 	command = "clear"
@@ -75,6 +82,10 @@ while gameActive:	#while the game is active run this while loop
 			print("Player" + str(activePlayer) + " has WON!")
 			gameActive = False
 			break
+		elif gameStatus() == False:
+			print("Draw!")
+			gameActive = False
+			break
 		activePlayer = 2
 
 	if activePlayer == 2:
@@ -90,6 +101,10 @@ while gameActive:	#while the game is active run this while loop
 		displayGame(rowcoldia)
 		if gameStatus() == True:
 			print("Player" + str(activePlayer) + " has WON!")
+			gameActive = False
+			break
+		elif gameStatus() == False:
+			print("Draw!")
 			gameActive = False
 			break
 		activePlayer = 1
